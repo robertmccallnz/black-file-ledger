@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Black File Ledger</title>
+  <meta name="description" content="Black-and-white graphic zine engine for region-based political dossiers." />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=supreme@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;--space-12:3rem;--radius-md:.55rem;--radius-lg:1rem;--radius-xl:1.35rem;--color-bg:#faf9f5;--color-surface:#fff;--color-surface-2:#efede7;--color-text:#111;--color-text-muted:#5c5a54;--color-border:#b9b5ad;--font-display:'Cabinet Grotesk',Arial,sans-serif;--font-body:'Supreme',Arial,sans-serif}
+    [data-theme="dark"]{--color-bg:#000;--color-surface:#0b0b0b;--color-surface-2:#151515;--color-text:#f8f6f0;--color-text-muted:#bcb6aa;--color-border:#57524a}
+    *{box-sizing:border-box}body{margin:0;font:var(--text-base)/1.6 var(--font-body);background:var(--color-bg);color:var(--color-text);background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:24px 24px}a{color:inherit}.shell{max-width:1180px;margin:0 auto;padding:var(--space-4)}
+    header{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:1rem 0 2rem;border-bottom:1px solid var(--color-border)} .brand{display:flex;gap:.85rem;align-items:center;text-decoration:none}.mark{width:44px;height:44px;border:2px solid currentColor;border-radius:50%;position:relative}.mark:before,.mark:after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:currentColor}.mark:before{width:18px;height:2px}.mark:after{width:2px;height:18px}
+    h1,h2,h3{font-family:var(--font-display);text-transform:uppercase;line-height:1;margin:0}.eyebrow{font-size:var(--text-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--color-text-muted)} .hero,.grid2{display:grid;gap:1.5rem}.hero{grid-template-columns:1.2fr .8fr;padding:2.2rem 0}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:1.4rem}.hero h2{font-size:clamp(2.6rem,2rem + 4vw,5rem);max-width:10ch;margin:.4rem 0 1rem}.muted{color:var(--color-text-muted)} .repo{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-surface-2);padding:1rem;border-radius:var(--radius-md);font-size:var(--text-sm)} footer{padding:3rem 0;color:var(--color-text-muted)} @media (max-width:920px){header,.hero,.grid2{grid-template-columns:1fr;display:grid}} @media print{body{background:#fff;color:#000}.shell{max-width:none;padding:.5cm}}
+  </style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span><span><div class="eyebrow">Region-based zine engine</div><h1>Black File Ledger</h1></span></a>
+</header>
+<main>
+<section class="hero">
+  <div>
+    <div class="eyebrow">Aotearoa first, extensible by region</div>
+    <h2>Document empire locally.</h2>
+    <p class="muted">A black-and-white source-bound zine engine for New Zealand-first issues that can be forked into other regional editions.</p>
+  </div>
+  <aside class="card">
+    <div class="eyebrow">Subscriber use</div>
+    <h3>Fork or download</h3>
+    <p>Readers can fork the repo or download it as a ZIP and build their own regional edition using the same codebase and data structure.</p>
+  </aside>
+</section>
+<section class="grid2">
+  <article class="card"><div class="eyebrow">Core repo shape</div><div class="repo">app/
+  black-file-ledger.html
+  content/
+scripts/
+regions/
+  new-zealand/
+  palestine/</div></article>
+  <article class="card"><div class="eyebrow">Publishing</div><p>Host the site on GitHub Pages and link it from The Kiwi Dialectic on Substack.</p></article>
+</section>
+</main>
+<footer>Black-and-white only. Built for print and web.</footer>
+</div>
+</body>
+</html>

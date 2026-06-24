@@ -1,0 +1,9 @@
+{
+  "id":"issue-001",
+  "title":"The Valley Listens",
+  "region":"new-zealand",
+  "formats":["web","print","mini-zine"],
+  "issue_question":"What looks like a local security story but is wired into a larger imperial system?",
+  "characters":["archivist","security-professional","organiser","editor","diplomat","witness"],
+  "source_ids":["nz-operation-chaos-1976","nz-igis-cia-programme-2019","nz-gcsb-history-five-eyes"]
+}

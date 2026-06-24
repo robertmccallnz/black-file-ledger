@@ -1,0 +1,12 @@
+const fs = require('fs');
+const path = require('path');
+const region = process.argv[2] || 'new-zealand';
+const issueId = process.argv[3] || 'issue-001';
+const issuePath = path.join(__dirname, '..', 'regions', region, 'issues', `${issueId}.json`);
+const sourcePath = path.join(__dirname, '..', 'regions', region, 'sources.json');
+const issue = JSON.parse(fs.readFileSync(issuePath, 'utf8'));
+const sources = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
+const resolved = issue.source_ids.map(id => sources.find(s => s.id === id)).filter(Boolean);
+const out = [`# ${issue.title}`, '', issue.issue_question, '', '## Sources', ...resolved.map(s => `- ${s.title}: ${s.url}`)].join('\n');
+fs.writeFileSync(path.join(__dirname, '..', 'README.md'), out);
+console.log(`Built README.md for ${region}/${issueId}`);

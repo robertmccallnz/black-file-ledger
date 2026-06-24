@@ -1,0 +1,8 @@
+[
+  {"id":"archivist","name":"The Archivist","kind":"composite","function":"historical memory","viewpoint":"Institutions bury continuity; archives restore it."},
+  {"id":"security-professional","name":"The Security Professional","kind":"composite","function":"official rationale","viewpoint":"Alignment and secrecy are framed as maturity."},
+  {"id":"organiser","name":"The Organiser","kind":"composite","function":"class critique","viewpoint":"Intelligence alignment protects ruling-class interests."},
+  {"id":"editor","name":"The Editor","kind":"composite","function":"media gatekeeping","viewpoint":"Publishable language is often narrower than truth."},
+  {"id":"diplomat","name":"The Diplomat","kind":"composite","function":"foreign-policy hedging","viewpoint":"Moral language often softens strategic obedience."},
+  {"id":"witness","name":"The Witness","kind":"composite","function":"human consequence","viewpoint":"Policy has a body count and a geography."}
+]
