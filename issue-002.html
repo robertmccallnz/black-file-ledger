@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Issue 002 — The Ledger Opens | Black File Ledger</title>
+  <meta name="description" content="The Archivist finds a routing code that shouldn't exist. The Witness already knew." />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=supreme@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #080808;
+      --color-surface: #0f0f0f;
+      --color-surface-2: #171717;
+      --color-text: #f0ece4;
+      --color-text-muted: #b0a99e;
+      --color-border: #3a3530;
+      --color-accent: #c8392b;
+      --color-accent-2: #e8a020;
+      --font-display: 'Cabinet Grotesk', Arial, sans-serif;
+      --font-body: 'Supreme', Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    a { color: var(--color-text); text-decoration: underline; }
+    .shell { max-width: 780px; margin: 0 auto; padding: 2rem 1.2rem 5rem; }
+    .back { font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; color: var(--color-text-muted); text-decoration: none; display: inline-block; margin-bottom: 2.5rem; }
+    .back:hover { color: var(--color-text); }
+    .eyebrow { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: .6rem; }
+    .issue-title { font-family: var(--font-display); font-size: clamp(3rem, 5vw + 1rem, 5.8rem); text-transform: uppercase; line-height: .92; margin-bottom: 1rem; }
+    .subtitle { font-size: .82rem; letter-spacing: .15em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; }
+    .lede { font-size: 1.18rem; line-height: 1.65; border-left: 3px solid var(--color-accent); padding-left: 1.2rem; margin-bottom: 2.5rem; color: var(--color-text); }
+    .panel { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; padding: 1.5rem; margin: 2rem 0; }
+    .panel-label { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 1rem; }
+    h2 { font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; margin: 2.5rem 0 .8rem; letter-spacing: .03em; }
+    h3 { font-family: var(--font-display); font-size: 1.15rem; text-transform: uppercase; color: var(--color-accent-2); margin: 2rem 0 .5rem; letter-spacing: .06em; }
+    p { margin-bottom: 1.1rem; }
+    .document-fragment {
+      background: var(--color-surface-2);
+      border: 1px solid #3a3530;
+      border-left: 4px solid var(--color-accent);
+      font-family: 'Courier New', monospace;
+      font-size: .82rem;
+      padding: 1.2rem 1.4rem;
+      margin: 1.5rem 0 2rem;
+      color: #c8c0b4;
+      line-height: 1.6;
+      position: relative;
+    }
+    .document-fragment::before {
+      content: 'DOCUMENT FRAGMENT — CLASSIFICATION UNKNOWN';
+      display: block;
+      font-size: .65rem;
+      letter-spacing: .18em;
+      color: var(--color-accent);
+      margin-bottom: .8rem;
+      text-transform: uppercase;
+    }
+    .character-voice {
+      margin: 2rem 0;
+      padding: 1.2rem 1.5rem;
+      background: var(--color-surface);
+      border-left: 4px solid var(--color-accent-2);
+      border-radius: 0 4px 4px 0;
+    }
+    .character-name {
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--color-accent-2);
+      margin-bottom: .7rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .character-voice blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--color-text);
+      border: none;
+      padding: 0;
+    }
+    .character-voice blockquote p { margin-bottom: .6rem; }
+    .dialogue-exchange {
+      margin: 2rem 0;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .dialogue-header {
+      background: var(--color-surface-2);
+      border-bottom: 1px solid var(--color-border);
+      padding: .7rem 1.2rem;
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .dialogue-line {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .dialogue-line:last-child { border-bottom: none; }
+    .dialogue-line.a { background: var(--color-surface); }
+    .dialogue-line.b { background: var(--color-bg); }
+    .dialogue-speaker {
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: .3rem;
+    }
+    .dialogue-text { font-size: .98rem; line-height: 1.65; }
+    .pedagogy-box {
+      background: #0d1117;
+      border: 1px solid #2a3a2a;
+      border-left: 4px solid #3a7a3a;
+      border-radius: 0 4px 4px 0;
+      padding: 1.4rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .pedagogy-box .panel-label { color: #5aaa5a; }
+    .pedagogy-box h3 { color: #7acc7a; margin-top: .5rem; }
+    .pedagogy-box ul, .pedagogy-box ol { padding-left: 1.4rem; margin-bottom: .8rem; }
+    .pedagogy-box li { margin-bottom: .4rem; font-size: .96rem; }
+    .art-block {
+      margin: 2.5rem 0;
+      text-align: center;
+    }
+    .ascii-art {
+      font-family: 'Courier New', monospace;
+      font-size: .72rem;
+      line-height: 1.2;
+      color: #5a5248;
+      text-align: left;
+      display: inline-block;
+      white-space: pre;
+    }
+    .art-caption {
+      font-size: .72rem;
+      color: var(--color-text-muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: .8rem;
+    }
+    .satire-note {
+      border: 1px dashed var(--color-border);
+      padding: .9rem 1.1rem;
+      font-size: .88rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin: 1.5rem 0;
+      border-radius: 3px;
+    }
+    .satire-note strong { color: var(--color-text); }
+    .timeline { list-style: none; margin: 1.2rem 0; }
+    .timeline li { display: grid; grid-template-columns: 90px 1fr; gap: .5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
+    .tl-date { font-family: var(--font-display); font-size: .85rem; color: var(--color-accent); text-transform: uppercase; font-weight: 700; padding-top: .1rem; }
+    .tl-event strong { display: block; font-family: var(--font-display); font-size: .95rem; text-transform: uppercase; margin-bottom: .2rem; }
+    .tl-event p { font-size: .88rem; color: var(--color-text-muted); margin: 0; }
+    .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    @media (max-width: 520px) { .concept-grid { grid-template-columns: 1fr; } }
+    .concept-card { background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: 4px; padding: 1rem; }
+    .concept-card h4 { font-family: var(--font-display); font-size: .9rem; text-transform: uppercase; color: var(--color-accent-2); margin-bottom: .5rem; }
+    .concept-card p { font-size: .88rem; color: var(--color-text-muted); margin: 0; }
+    .source-list { list-style: none; margin: 1rem 0; }
+    .source-list li { font-size: .85rem; color: var(--color-text-muted); padding: .5rem 0; border-bottom: 1px solid var(--color-border); }
+    .source-list li a { color: var(--color-text-muted); }
+    .source-list li a:hover { color: var(--color-text); }
+    .redacted {
+      background: var(--color-text);
+      color: var(--color-text);
+      cursor: default;
+      user-select: none;
+      border-radius: 2px;
+      padding: 0 .2em;
+    }
+    .redacted:hover { background: var(--color-accent); color: var(--color-bg); }
+    .move-marker {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1rem;
+    }
+    .move-number { font-family: var(--font-display); font-size: 3rem; color: var(--color-border); line-height: 1; }
+    .move-title { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; letter-spacing: .08em; }
+    .move-subtitle { font-size: .8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .12em; }
+    footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); font-size: .8rem; color: var(--color-text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <a href="index.html" class="back">&larr; Black File Ledger</a>
+
+  <!-- MASTHEAD -->
+  <div class="eyebrow">Issue 002 &mdash; The Ledger Opens</div>
+  <h1 class="issue-title">The<br>Ledger<br>Opens</h1>
+  <div class="subtitle">Waihopai Valley, NZ &mdash; Wellington &mdash; Somewhere in the Pacific &mdash; 2026 &mdash; The Archivist &amp; The Witness</div>
+
+  <p class="lede">A routing code appears in a civilian archive. It should not be there. It references an operation that officially does not exist. The Archivist has been careful his whole career. He is careful now. He picks up the phone.</p>
+
+  <!-- DOCUMENT FRAGMENT -->
+  <div class="document-fragment">
+    NZDF/GCSB ROUTING HEADER &mdash; DEACCESSIONED FILE REF: ARCH-0047-B<br>
+    DATE STAMPED: [REDACTED]<br>
+    ORIGIN NODE: WAIHOPAI SIGINT FACILITY, MARLBOROUGH<br>
+    ROUTING CODE: <span class="redacted">TF-PACIFIC-7 / ECHELON-RELAY / XKEYSCORE-NZ-OUT</span><br>
+    RECIPIENT: <span class="redacted">NSOC FORT MEADE / GCHQ BUDE / ASD GERALDTON</span><br>
+    CONTENT CLASS: COMINT &mdash; THIRD-PARTY RULE APPLIES<br>
+    NOTE: THIS FILE WAS CLEARED FOR CIVILIAN ARCHIVE BY ERROR. RETRIEVAL AUTHORISED.<br>
+    &mdash; FILE NOT RETRIEVED. ARCHIVIST DECEASED BEFORE NOTIFICATION. FILE REMAINS IN SYSTEM.<br>
+    STATUS: <strong>LIVE</strong>
+  </div>
+
+  <div class="satire-note"><strong>Editorial note:</strong> The routing codes above are fictional composites drawn from documented programme names in the public record &mdash; Echelon, XKeyscore, NSOC &mdash; as reported by The Intercept, The Guardian, and the Snowden archive (2013). The scenario is invented. The infrastructure is not.</div>
+
+  <!-- BOARD MOVE -->
+  <div class="move-marker">
+    <div class="move-number">02</div>
+    <div>
+      <div class="move-title">The Ledger Opens</div>
+      <div class="move-subtitle">Board Move &mdash; The Archivist Draws a Card</div>
+    </div>
+  </div>
+
+  <p>In the game as designed, the Archivist is not a player. He is infrastructure. He preserves what the state decides is worth preserving and destroys what it decides must go. For thirty-one years he did this without incident, without curiosity, without the particular kind of attention that makes a person dangerous.</p>
+
+  <p>Then the file came through on a Tuesday. Not remarkable. One of seven hundred deaccessioned items flagged for routine transfer to the National Library. Except this one had a routing header attached &mdash; a digital artifact from a legacy system nobody had bothered to strip. And the routing header contained a code that he recognised from a document he had been ordered to destroy in 2004 and had not.</p>
+
+  <p>He had kept a copy. Public servants are not supposed to keep copies. He had kept it anyway, the way a person keeps a stone they pick up on a beach: not for any reason, but because the weight of it felt like it meant something.</p>
+
+  <p>Now it did.</p>
+
+  <!-- PEDAGOGY BOX 1: WHAT IS SIGNALS INTELLIGENCE? -->
+  <div class="pedagogy-box">
+    <div class="panel-label">&#x1F4DA; Field Education &mdash; What Is Signals Intelligence?</div>
+    <h3>SIGINT: The Invisible Export</h3>
+    <p>Signals intelligence (SIGINT) is the interception and analysis of electronic communications &mdash; phone calls, emails, satellite transmissions, metadata flows. It is the core product of the Five Eyes alliance (FVEY): the intelligence-sharing arrangement between the United States, United Kingdom, Canada, Australia, and New Zealand.</p>
+    <p>New Zealand's contribution is Waihopai Station in the Marlborough Sounds &mdash; two large radomes that intercept satellite communications across the Pacific. Officially operated by the Government Communications Security Bureau (GCSB), Waihopai feeds into the global ECHELON network.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>The Third-Party Rule</h4>
+        <p>Intelligence shared within FVEY cannot be passed to third-party governments without consent from the originating agency. In practice, this means NZ can legally claim ignorance of how its signals product is used downstream &mdash; including in targeting decisions for drone strikes or detention operations.</p>
+      </div>
+      <div class="concept-card">
+        <h4>XKEYSCORE</h4>
+        <p>An NSA tool revealed by Edward Snowden (2013) that allows analysts to search the full content of intercepted internet traffic. NZ's GCSB was confirmed as an XKEYSCORE partner. The tool was described internally as offering "nearly everything a typical user does on the internet."</p>
+      </div>
+      <div class="concept-card">
+        <h4>Metadata vs. Content</h4>
+        <p>Governments often claim they collect only "metadata" (who called whom, when, from where) &mdash; not content. Intelligence scholars note that metadata analysis at scale can be more revealing than content. As former NSA director Michael Hayden stated: "We kill people based on metadata."</p>
+      </div>
+      <div class="concept-card">
+        <h4>The Carnivore Economy</h4>
+        <p>New Zealand exports lamb, dairy, and signals intelligence. The first two are celebrated in trade policy. The third is classified. All three extract value from the land, the labour, and the infrastructure of a small nation and deliver it to larger imperial powers in exchange for "partnership."</p>
+      </div>
+    </div>
+    <p style="font-size:.85rem; color:#5aaa5a; margin-top:.5rem;">&#x2192; Key texts: Nicky Hager, <em>Secret Power</em> (1996); Glenn Greenwald, <em>No Place to Hide</em> (2014); The Intercept, XKEYSCORE documentation (2015).</p>
+  </div>
+
+  <!-- SCENE: THE PHONE CALL -->
+  <h2>Scene I &mdash; The Phone Call</h2>
+  <p>He called the only person he knew who would understand what he was looking at and would not immediately notify someone with a lanyard.</p>
+
+  <div class="dialogue-exchange">
+    <div class="dialogue-header">Scene &mdash; Secure Phone / The Archivist calls The Witness &mdash; 11:42pm, Tuesday</div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">I found something in the deaccession batch. A routing header that wasn't stripped. It has a TF-Pacific code attached. You know what that means.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">How did it come through civilian channels?</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">Legacy system. The metadata stripping protocol wasn't applied. Someone's error. Or not. I don't know which is worse.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">Don't report it through official channels.</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">That's an instruction I need you to explain to me.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">When I found something like this in 2009, I reported it through the correct process. The correct process didn't investigate the anomaly. It investigated me. I was gone in three weeks. The anomaly remained. The process protected the process.</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">So what do I do with it?</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">You copy it. You keep it somewhere that isn't your work computer, your home computer, or your phone. And then you sit with it for a while. The archive is patient. You've taught me that. Be patient now.</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">And if someone comes asking whether the file made it through to me?</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">Tell them the truth. It did. And that you flagged it for retrieval. Which you did. Just now. To me.</div>
+    </div>
+  </div>
+
+  <!-- PEDAGOGY BOX 2: WHISTLEBLOWING AND THE LAW -->
+  <div class="pedagogy-box">
+    <div class="panel-label">&#x1F4DA; Field Education &mdash; Whistleblowing, Disclosure, and the Law</div>
+    <h3>Why the "Correct Process" Often Fails</h3>
+    <p>In most liberal democracies, the official whistleblowing framework requires reporting through internal channels first &mdash; a process that gives institutions advance warning to prepare a response, discredit the reporter, or simply absorb the disclosure without consequence.</p>
+    <ul>
+      <li><strong>New Zealand:</strong> The Protected Disclosures (Protection of Whistleblowers) Act 2022 offers legal protection &mdash; but only if disclosures are made to designated authorities and in good faith. It does not protect leaks to journalists.</li>
+      <li><strong>The United States:</strong> The Intelligence Community Whistleblower Protection Act (ICWPA) requires classified complaints to go to the Inspector General or Congressional committees. Edward Snowden used this channel; it was ignored. He then disclosed publicly. He was charged under the Espionage Act.</li>
+      <li><strong>The United Kingdom:</strong> The Official Secrets Act (1989) contains no public interest defence. Whistleblowing on intelligence matters is, in most circumstances, a criminal offence regardless of the severity of what is disclosed.</li>
+    </ul>
+    <p>The structural pattern: the systems designed to protect whistleblowers are designed by the institutions those whistleblowers would expose. This is not conspiracy. It is institutional self-preservation operating as designed.</p>
+    <p style="font-size:.85rem; color:#5aaa5a; margin-top:.5rem;">&#x2192; Further reading: Nicky Hager &amp; Jon Stephenson, <em>Hit &amp; Run</em> (2017); Jesse Franzman, <em>The Watchdog That Didn't Bark</em> (2019).</p>
+  </div>
+
+  <!-- ART BLOCK -->
+  <div class="art-block">
+    <div class="ascii-art">         . . . . . . . . . . . . . . . . . . . . .
+       .   W A I H O P A I   S T A T I O N   2 6   .
+         . . . . . . . . . . . . . . . . . . . . .
+
+                         ___
+                      /     \
+                     |  ( )  |      RADOME ALPHA
+                      \     /       STATUS: ACTIVE
+                        ---
+                         |
+              ___________|___________
+             |                       |
+             |   ROUTING TRAFFIC:    |
+             |   >> FORT MEADE       |
+             |   >> BUDE, CORNWALL   |
+             |   >> PINE GAP         |
+             |   >> GERALDTON        |
+             |_______________________|
+                         |
+               . . . . . | . . . . .
+               . PACIFIC . FIBRE  . 
+               . . . . . . . . . . .</div>
+    <div class="art-caption">Waihopai Station, Marlborough &mdash; Operational since 1989 &mdash; Architectural rendering (fictional)</div>
+  </div>
+
+  <!-- SCENE II: THE WITNESS REMEMBERS -->
+  <h2>Scene II &mdash; What the Witness Carries</h2>
+
+  <p>He had not spoken about 2009 to anyone since 2011. He had tried once, to a journalist at a Sunday broadsheet. She had listened carefully, asked careful questions, thanked him carefully, and then filed nothing. Three weeks later she was covering the America's Cup.</p>
+
+  <div class="character-voice">
+    <div class="character-name">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#e8a020" stroke-width="1.5"/><path d="M8 5v4M8 11v.5" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+      The Witness &mdash; Personal Record, Undated
+    </div>
+    <blockquote>
+      <p>There is a person at the end of every protocol. A body in every intelligence product. When we hand over the intercept, we do not hand over a file. We hand over a person's movement, a person's contact, a person's moment of fear or love or planning, extracted from their life without consent and packaged for use by someone who does not know their name and does not need to.</p>
+      <p>I was told this was the cost of security. I believed it for eleven years. Then I saw what the product was being used for. Not security. Targeting. Not protection. Selection. The protocol produced a list. The list produced an airstrike. The airstrike produced a number. The number was not reported.</p>
+      <p>I reported through the correct process. The correct process did not protect the person. It protected the process. I want that sentence remembered. I want it read in twenty years by someone who still thinks the system reforms itself from within. The system does not reform itself from within. The system absorbs reformers. That is one of its primary functions.</p>
+    </blockquote>
+  </div>
+
+  <!-- PEDAGOGY BOX 3: THE WAR ECONOMY -->
+  <div class="pedagogy-box">
+    <div class="panel-label">&#x1F4DA; Field Education &mdash; The War Economy in 2026</div>
+    <h3>How Small States Become Logistics for Empire</h3>
+    <p>The term "war economy" typically refers to a nation redirecting civilian production toward military ends. In the post-2022 global context &mdash; following Russia's invasion of Ukraine, the expansion of AUKUS, and the intensification of Indo-Pacific military posturing &mdash; the war economy has become diffuse, distributed, and deniable.</p>
+    <ul>
+      <li><strong>Intelligence as war materiel:</strong> SIGINT product from Waihopai-style facilities is now openly acknowledged as part of the targeting architecture for allied military operations. New Zealand's "non-combat" status is a legal and political fiction its own officials privately acknowledge.</li>
+      <li><strong>AUKUS and the Pacific:</strong> The 2021 AUKUS agreement (Australia, UK, US) explicitly integrates intelligence, cyber, and undersea warfare capabilities. New Zealand was excluded but remains embedded through FVEY. The result: all the exposure, no formal seat at the table.</li>
+      <li><strong>Defence spending pressure:</strong> NATO members are being pushed to spend 2% of GDP on defence. Non-NATO partners like NZ face equivalent informal pressure. The 2024 NZ Defence Capability Plan committed NZD $9 billion over ten years &mdash; the largest peacetime military expansion in NZ history, approved without a referendum.</li>
+      <li><strong>Private contractors:</strong> Companies like Palantir Technologies have embedded data analysis platforms inside NZ government agencies. Palantir's core product was built for military targeting. Its civilian government contracts are, in the words of one analyst, "the same product in different packaging."</li>
+    </ul>
+    <p>The critical question this zine keeps returning to: <strong>who authorised this?</strong> Not the GCSB Act. Not the Defence White Paper. Not a referendum. The answer, structurally, is: the alliance authorised it. New Zealand ratified the outcome by not objecting. Democratic consent was assumed rather than sought. This is the form imperialism takes in small, compliant states.</p>
+    <p style="font-size:.85rem; color:#5aaa5a; margin-top:.5rem;">&#x2192; Further reading: NZ Defence Capability Plan 2024 (NZDF); Pat Kendall, <em>The Price of Partnership</em>; Murray Horton, Campaign Against Foreign Control of Aotearoa (CAFCA).</p>
+  </div>
+
+  <!-- SCENE III: THE MEETING -->
+  <h2>Scene III &mdash; The Meeting That Doesn't Happen</h2>
+
+  <p>They met in person once. A library in Wellington. The Archivist arrived first. He had brought the file on a USB drive inside a library card holder inside a copy of <em>The Public Service and You</em>, a training manual from 1987 that nobody would open.</p>
+
+  <div class="dialogue-exchange">
+    <div class="dialogue-header">Scene &mdash; Wellington Public Library, Level 2, Local History / Thursday, 2:15pm</div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">Tell me the routing sequence again. From the header.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">TF-Pacific-7. ECHELON-relay node. Then an output tag I don't recognise &mdash; three letters, a hyphen, four numbers. I've never seen that format in a domestic file.</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">That format is a task-force identifier. They're used in joint operations where more than one FVEY partner is contributing product. The number tells you which operation. Three letters tell you which partner is the lead agency.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">And the output destination?</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">That's the part that matters. If the output destination is a non-FVEY node, then the Third-Party Rule was either waived or bypassed. Either way, it means the product went somewhere it officially can't go. Which means someone made a decision that has no paper trail on the NZ side.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">Is that what happened to you? In 2009?</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">What happened to me in 2009 was that I wrote a memo documenting a product delivery that had no authorised recipient on the NZ side. The memo was received by my director. My director showed it to someone I never met. Three weeks later I was offered a redundancy package and a non-disclosure agreement I was told was standard. I signed it. I shouldn't have.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">What was in the non-disclosure?</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">Standard language. But there was a clause. It said I agreed not to publish, communicate, or cause to be communicated any information relating to intelligence activities that I had become aware of during my employment. That's broad language. It covers everything I know. Including this conversation, technically.</div>
+    </div>
+    <div class="dialogue-line b">
+      <div class="dialogue-speaker">The Archivist</div>
+      <div class="dialogue-text">So why are you having it?</div>
+    </div>
+    <div class="dialogue-line a">
+      <div class="dialogue-speaker">The Witness</div>
+      <div class="dialogue-text">Because the document you found is evidence that what I saw in 2009 was not an isolated error. It was a system. And a system that persists across seventeen years is not an accident. It is a policy. An unwritten one, but a policy. And I've decided that my NDA does not cover my obligation to tell the truth about what I know to be happening. A lawyer might disagree. I'm not asking a lawyer.</div>
+    </div>
+  </div>
+
+  <!-- PEDAGOGY BOX 4: THE COMMERCIALISATION OF INTELLIGENCE -->
+  <div class="pedagogy-box">
+    <div class="panel-label">&#x1F4DA; Field Education &mdash; When Intelligence Becomes a Market</div>
+    <h3>The Privatisation of the Watching State</h3>
+    <p>One of the least-discussed transformations of the post-9/11 security state is the mass outsourcing of intelligence functions to private corporations. By 2013, roughly 70% of the United States intelligence community budget was spent on private contractors. The equivalent NZ figure is not published.</p>
+    <p>Key contractors operating in allied intelligence ecosystems:</p>
+    <ul>
+      <li><strong>Palantir Technologies (US):</strong> Provides data integration and analysis platforms used by CIA, NSA, NZ Police, and multiple Five Eyes agencies. Founded with CIA venture funding. Its "Gotham" platform is the primary tool for fusing surveillance data with targeting decisions. CEO Alex Karp has publicly described Palantir as a "weapon" company.</li>
+      <li><strong>Booz Allen Hamilton (US):</strong> Edward Snowden was a Booz Allen contractor. The firm employs thousands of former NSA, CIA, and DIA staff and is described by critics as a "shadow NSA." Revenue: USD $10 billion (2023).</li>
+      <li><strong>BAE Systems Applied Intelligence (UK):</strong> Provides signals analysis tools to GCHQ and allied partners including NZ. Sold the EVIDENT surveillance platform to multiple governments.</li>
+    </ul>
+    <p>What this means structurally: the intelligence product is no longer solely a state function. It is a market. The people who built the surveillance apparatus now sell it back to the state, and also sell it to whoever else can pay. The distinction between "our" intelligence and "their" intelligence is increasingly a legal fiction maintained by contract rather than loyalty.</p>
+    <p><strong>The anarchist critique:</strong> The state outsources intelligence not only because it is cheaper, but because privatisation removes accountability. A contractor who violates human rights is subject to civil law. A state that does the same is subject to international law. Neither, in practice, is subject to much at all. The privatisation of power is the privatisation of impunity.</p>
+    <p style="font-size:.85rem; color:#5aaa5a; margin-top:.5rem;">&#x2192; Further reading: Tim Shorrock, <em>Spies for Hire</em> (2008); The Intercept, "The Drone Papers" (2015); Privacy International, <em>Surveillance Industry Index</em>.</p>
+  </div>
+
+  <!-- TIMELINE: THE ARCHITECTURE OF SURVEILLANCE IN NZ -->
+  <div class="panel">
+    <div class="panel-label">Timeline &mdash; How the Infrastructure Was Built</div>
+    <h3>The Long Game: Aotearoa's Intelligence Architecture</h3>
+    <ul class="timeline">
+      <li>
+        <div class="tl-date">1956</div>
+        <div class="tl-event"><strong>UKUSA Agreement Signed</strong><p>New Zealand secretly joins the signals intelligence sharing arrangement with the US, UK, Canada, and Australia. Parliament is not informed. The public is not informed. The arrangement remains secret for four decades.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">1989</div>
+        <div class="tl-event"><strong>Waihopai Opens</strong><p>The Waihopai Station satellite interception facility opens in the Marlborough Sounds. Nicky Hager's <em>Secret Power</em> (1996) will later reveal its role in the global ECHELON network. The government declines to confirm or deny. This posture becomes standard.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2001</div>
+        <div class="tl-event"><strong>Post-9/11 Expansion</strong><p>NZ intelligence agencies expand under the cover of the "War on Terror." The GCSB Act 2003 formalises but limits domestic powers. The limits are later found to have been routinely exceeded. An inquiry confirms this in 2013. No one is prosecuted.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2013</div>
+        <div class="tl-event"><strong>The Snowden Revelations</strong><p>NZ is confirmed as an XKEYSCORE partner. Prime Minister John Key denies the GCSB spied on New Zealanders. The GCSB Inspector-General later confirms it had. Key's denial stands uncorrected in the public record. The GCSB Act is amended to expand, not restrict, surveillance powers.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2019</div>
+        <div class="tl-event"><strong>IGIS Torture Report</strong><p>The Inspector-General of Intelligence and Security confirms that NZ had knowledge of CIA torture programmes and continued intelligence sharing throughout. The report is released with significant redactions. No parliamentary debate is scheduled.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2021</div>
+        <div class="tl-event"><strong>AUKUS Announced &mdash; NZ Excluded</strong><p>Australia, UK, and US announce AUKUS, integrating nuclear submarine and advanced weapons technology. NZ is excluded on nuclear policy grounds but remains embedded in all Five Eyes intelligence functions. The government describes this as "our values."</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2024</div>
+        <div class="tl-event"><strong>$9 Billion Defence Expansion</strong><p>The NZ Defence Capability Plan commits NZD $9 billion over ten years. The plan emphasises interoperability with AUKUS partners. No referendum. Passed in Parliament with support from both major parties. The Greens abstain. Te P&#257;ti M&#257;ori votes against.</p></div>
+      </li>
+      <li>
+        <div class="tl-date">2026</div>
+        <div class="tl-event"><strong>The Ledger Opens</strong><p>A routing code appears in a civilian archive. It should not be there. One retired public servant calls another. The infrastructure persists. The people inside it are beginning to count the cost.</p></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- CLOSING VOICE: THE ARCHIVIST -->
+  <h2>Closing &mdash; The Archive Speaks</h2>
+
+  <div class="character-voice">
+    <div class="character-name">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1" stroke="#e8a020" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/></svg>
+      The Archivist &mdash; Personal Journal, Thursday Night
+    </div>
+    <blockquote>
+      <p>I have spent my career believing that the archive is neutral. That my function was to preserve, not to judge. That the document does not care who reads it or what they do with the knowledge. I believed that the act of keeping was separate from the act of knowing.</p>
+      <p>I no longer believe this.</p>
+      <p>A document that is kept becomes a witness. A witness that is silent is complicit. I kept the copy in 2004 because the weight of it felt like it meant something. I understand now what it meant. It meant that somewhere in me, beneath the thirty-one years of careful neutrality, I already knew that the system required someone to hold what it preferred to destroy. I was that person. I did not choose it. I just didn't not choose it, which amounts to the same thing in the end.</p>
+      <p>The Witness told me: be patient. The archive is patient.</p>
+      <p>He's right. But patience without purpose is just waiting. I'm done waiting. The ledger is open. Someone should read it.</p>
+    </blockquote>
+  </div>
+
+  <!-- SATIRE NOTE -->
+  <div class="satire-note"><strong>A note on method:</strong> This is a work of political fiction. All characters are composites. All institutions are real. All documents are invented and documented. The routing codes do not exist in this configuration. The programmes they reference do. The gap between those two sentences is where the story lives.</div>
+
+  <!-- SOURCES -->
+  <div class="panel">
+    <div class="panel-label">Sources &amp; Further Research</div>
+    <ul class="source-list">
+      <li>Nicky Hager, <em>Secret Power: New Zealand's Role in the International Spy Network</em> (1996) &mdash; Craig Potton Publishing</li>
+      <li>Glenn Greenwald, <em>No Place to Hide: Edward Snowden, the NSA, and the U.S. Surveillance State</em> (2014)</li>
+      <li>The Intercept, "The NSA's XKEYSCORE Program" (2013) &mdash; theintercept.com</li>
+      <li>Inspector-General of Intelligence &amp; Security, "Report into NZ knowledge of CIA detention and interrogation programme" (2019) &mdash; igis.govt.nz</li>
+      <li>NZ Defence Capability Plan 2024 &mdash; nzdf.mil.nz</li>
+      <li>Tim Shorrock, <em>Spies for Hire: The Secret World of Intelligence Outsourcing</em> (2008)</li>
+      <li>Murray Horton / CAFCA, <em>Foreign Control Watchdog</em> (ongoing) &mdash; cafca.org.nz</li>
+      <li>Privacy International, <em>Surveillance Industry Index</em> &mdash; privacyinternational.org</li>
+      <li>The Snowden Archive, Courage Foundation &mdash; edwardsnowden.com</li>
+    </ul>
+  </div>
+
+  <!-- NEXT ISSUE -->
+  <div class="panel" style="border-color: var(--color-accent);">
+    <div class="panel-label">Next &mdash; Issue 003</div>
+    <h3>The Revolving Door</h3>
+    <p>A Wellington consultancy wins a contract advising a Gulf sovereign wealth fund on "Pacific stability assessments." The Diplomat is on the letterhead. The Capitalist is the client. Nobody voted on this either.</p>
+    <p style="font-size:.85rem; color: var(--color-text-muted);">Issue 003 focuses on: post-government careers, the geopolitical risk industry, Gulf petrostates, and how diplomatic expertise becomes a private commodity &mdash; with your taxes as the seed capital.</p>
+  </div>
+
+  <footer>
+    <span>Black File Ledger &mdash; A Political Zine &mdash; Aotearoa New Zealand</span>
+    <span>Issue 002 &mdash; <a href="cast.html">The Cast</a> &mdash; <a href="index.html">Index</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
